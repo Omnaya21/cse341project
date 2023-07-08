@@ -1,6 +1,7 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
 export interface IUser extends Document {
+  _id: mongoose.Types.ObjectId;
   githubId: string;
   displayName?: string;
   oAuthProvider?: string;
@@ -12,6 +13,7 @@ export interface IUserModel extends Model<IUser> {
 }
 
 const UserSchema: Schema = new Schema({
+  _id: mongoose.Types.ObjectId,
   githubId: {
     type: String,
     required: true,
