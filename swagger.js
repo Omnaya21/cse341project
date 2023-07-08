@@ -2,29 +2,36 @@ const swaggerAutogen = require('swagger-autogen')({ openapi: '3.0.0' });
 
 const doc = {
   info: {
-    title: 'Workout Tracker API',
-    description: 'CSE 341 Workout Tracker API',
+    title: 'Blogging App API',
+    description: 'CSE 341 Blogging App API',
   },
   host: `localhost:${process.env.PORT}`,
   schemes: ['http'],
   consumes: ['application/json'],
   produces: ['application/json'],
   definitions: {
-    Exercise: {
-      $name: 'Dumbbell Rows',
-      startTime: '2023-06-24T01:33:43.197Z',
-      endTime: '2023-06-24T01:45:43.197Z',
-      duration: '12 minutes',
-      reps: 5,
-      sets: 3,
-      weight: '',
-      distance: '',
-      notes: 'This was a tough exercise.',
+    User: {
+      $displayName: 'Mike Johnson',
     },
-    Workout: {
-      startTime: '2023-06-24T01:33:43.197Z',
-      endTime: '2023-06-24T01:45:43.197Z',
-      $exercises: [{ $ref: '#/definitions/Exercise' }],
+    Tag: {
+      $tag: 'Outdoors',
+      createdAt: '2023-07-01T01:33:43.197Z',
+    },
+    Comment: {
+      $comment: 'This was great info. Thank you!',
+      author: { $ref: '#/definitions/User' },
+      createdAt: '2023-06-24T01:33:43.197Z',
+      updatedAt: '',
+    },
+    Post: {
+      $title: '3 Day Backpacking List',
+      $author: { $ref: '#/definitions/User' },
+      $content: "In this post, I'm going to go over the best things to pack for a 3 day backpacking trip in southern Utah...",
+      createdAt: '2023-06-23T01:33:43.197Z',
+      updatedAt: '2023-06-23T02:05:43.197Z',
+      image: '',
+      comments: [{ $ref: '#/definitions/Comment' }],
+      tags: [{ $ref: '#/definitions/Tag' }],
     },
   },
 };

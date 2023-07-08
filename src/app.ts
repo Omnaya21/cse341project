@@ -10,8 +10,8 @@ import chalk from 'chalk';
 import connectDB from './db/db';
 import swaggerUi from 'swagger-ui-express';
 import routes from './routes';
-// import * as swaggerDocProd from './swagger.json';
-// import * as swaggerDocDev from './swagger-dev.json';
+import * as swaggerDocProd from './swagger.json';
+import * as swaggerDocDev from './swagger-dev.json';
 import passport from 'passport';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
@@ -21,10 +21,10 @@ import mongoose from 'mongoose';
 const PORT = process.env.PORT;
 const app: Express = express();
 
-// let swaggerDoc = swaggerDocProd;
-// if (process.env.NODE_ENV === 'dev') {
-//   swaggerDoc = swaggerDocDev;
-// }
+let swaggerDoc = swaggerDocProd;
+if (process.env.NODE_ENV === 'dev') {
+  swaggerDoc = swaggerDocDev;
+}
 
 (async () => {
   await connectDB();
@@ -32,7 +32,7 @@ const app: Express = express();
     .use(morgan('dev'))
     .use(express.json())
     .use(express.urlencoded({ extended: true }))
-    // .use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc))
+    .use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc))
     // .use(
     //   session({
     //     secret: process.env.SESSION_SECRET!,

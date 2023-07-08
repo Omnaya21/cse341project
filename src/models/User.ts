@@ -20,6 +20,7 @@ const UserSchema: Schema = new Schema({
   },
   displayName: {
     type: String,
+    required: true,
   },
   oAuthProvider: {
     type: String,

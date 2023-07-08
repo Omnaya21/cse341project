@@ -28,6 +28,7 @@ const PostSchema: Schema = new Schema({
   },
   author: {
     type: mongoose.Schema.Types.ObjectId,
+    required: true,
     ref: 'User',
   },
   content: {
