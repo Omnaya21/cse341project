@@ -1,8 +1,9 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
 export interface ITag extends Document {
-  tag: string;
+  name: string;
   createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface ITagModel extends Model<ITag> {
@@ -10,13 +11,16 @@ export interface ITagModel extends Model<ITag> {
 }
 
 const TagSchema: Schema = new Schema({
-  tag: {
+  name: {
     type: String,
     required: true,
   },
   createdAt: {
     type: Date,
     default: Date.now,
+  },
+  updatedAt: {
+    type: Date,
   },
 });
 

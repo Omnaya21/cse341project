@@ -4,8 +4,21 @@ import {
   dbInsertTag,
   dbUpdateTag,
   dbDeleteTag,
+  dbGetTagByName,
+  dbGetAllTags,
 } from '../dataAccess/tag';
 import { Request, Response } from 'express';
+
+export const getAllTags = async (req: Request, res: Response) => {
+  /*
+    #swagger.responses[200] = {
+      description: 'Get all tags.',
+      schema: [{ $ref: '#/definitions/Tag'}]
+    }
+  */
+  const tags = await dbGetAllTags();
+  res.status(200).send(tags);
+};
 
 export const getTagById = async (req: Request, res: Response) => {
   /*
@@ -17,6 +30,23 @@ export const getTagById = async (req: Request, res: Response) => {
   const tagId = req.params.tagId;
   const tag = await dbGetTag(tagId);
   res.status(200).send(tag);
+};
+
+export const getTagByName = async (req: Request, res: Response) => {
+  /*
+    #swagger.responses[200] = {
+      description: 'Get a tag by its name.',
+      schema: { $ref: '#/definitions/Tag'}
+    }
+  */
+  const tagName = req.query.tagName as string;
+  if (tagName) {
+    const tag = await dbGetTagByName(tagName);
+    console.log({ tag });
+    res.status(200).send(tag);
+  } else {
+    res.status(401).send({ error: 'Missing "tagName" parameter' });
+  }
 };
 
 export const insertTag = async (req: Request, res: Response) => {
