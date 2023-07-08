@@ -3,6 +3,8 @@ import { logout } from '../controllers/auth';
 import { ensureAuth } from '../middleware';
 import auth from './auth';
 import post from './post';
+import comment from './comment';
+import tag from './tag';
 
 const router = Router();
 
@@ -19,8 +21,8 @@ const router = Router();
 // router.use(ensureAuth);
 
 router.use('/post', post);
-// router.use('/comment', comment);
-// router.use('/tag', tag);
+router.use('/comment', comment);
+router.use('/tag', tag);
 // router.use('/user', user);
 
 export default router;

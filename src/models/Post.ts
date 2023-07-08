@@ -4,7 +4,6 @@ import { IComment } from './Comment';
 import { ITag } from './Tag';
 
 export interface IPost extends Document {
-  _id: mongoose.Types.ObjectId;
   title: string;
   author: IUser;
   content: string;
@@ -20,7 +19,6 @@ export interface IPostModel extends Model<IPost> {
 }
 
 const PostSchema: Schema = new Schema({
-  _id: mongoose.Types.ObjectId,
   title: {
     type: String,
     required: true,
@@ -28,6 +26,7 @@ const PostSchema: Schema = new Schema({
   },
   author: {
     type: mongoose.Schema.Types.ObjectId,
+    required: true,
     ref: 'User',
   },
   content: {
