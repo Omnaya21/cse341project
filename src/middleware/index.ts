@@ -13,10 +13,6 @@ export const universalErrorHandler = (err: any, req: Request, res: Response, nex
   });
 };
 
-export const fourOhFour = (err: any, req: Request, res: Response, next: NextFunction) => {
-  next({ status: 404, message: 'Sorry, we appear to have lost that page.' });
-};
-
 export const addUniversalResponseHeaders = (req: Request, res: Response, next: NextFunction) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Content-Type', 'application/json');
