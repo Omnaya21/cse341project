@@ -2,7 +2,6 @@ import mongoose, { Schema, Document, Model } from 'mongoose';
 import { IUser } from './User';
 
 export interface IComment extends Document {
-  _id: mongoose.Types.ObjectId;
   author: IUser;
   comment: string;
   createdAt: Date;
@@ -14,7 +13,6 @@ export interface ICommentModel extends Model<IComment> {
 }
 
 const CommentSchema: Schema = new Schema({
-  _id: mongoose.Types.ObjectId,
   author: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',

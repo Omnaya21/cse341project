@@ -1,7 +1,6 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
 
 export interface ITag extends Document {
-  _id: mongoose.Types.ObjectId;
   tag: string;
   createdAt: Date;
 }
@@ -11,7 +10,6 @@ export interface ITagModel extends Model<ITag> {
 }
 
 const TagSchema: Schema = new Schema({
-  _id: mongoose.Types.ObjectId,
   tag: {
     type: String,
     required: true,
