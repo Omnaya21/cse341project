@@ -2,7 +2,6 @@
 import {
   universalErrorHandler,
   addUniversalResponseHeaders,
-  fourOhFour
 } from './middleware';
 import express, { Express } from 'express';
 import morgan from 'morgan';
@@ -45,7 +44,6 @@ if (process.env.NODE_ENV === 'dev') {
     // .use(passport.session())
     .use(addUniversalResponseHeaders)
     .use('/', routes)
-    .use(fourOhFour)
     .use(universalErrorHandler);
 
   const createServerMessage = () => {
