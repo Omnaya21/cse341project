@@ -14,21 +14,16 @@ const doc = {
       $displayName: 'Mike Johnson',
     },
     Tag: {
-      $tag: 'Outdoors',
-      createdAt: '2023-07-01T01:33:43.197Z',
+      $name: 'Outdoors',
     },
     Comment: {
       $comment: 'This was great info. Thank you!',
       author: { $ref: '#/definitions/User' },
-      createdAt: '2023-06-24T01:33:43.197Z',
-      updatedAt: '',
     },
     Post: {
       $title: '3 Day Backpacking List',
       $author: { $ref: '#/definitions/User' },
       $content: "In this post, I'm going to go over the best things to pack for a 3 day backpacking trip in southern Utah...",
-      createdAt: '2023-06-23T01:33:43.197Z',
-      updatedAt: '2023-06-23T02:05:43.197Z',
       image: '',
       comments: [{ $ref: '#/definitions/Comment' }],
       tags: [{ $ref: '#/definitions/Tag' }],

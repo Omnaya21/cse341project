@@ -1,6 +1,6 @@
 // prettier-ignore
 import {
-  dbGetComment,
+  dbGetCommentById,
   dbInsertComment,
   dbUpdateComment,
   dbDeleteComment,
@@ -15,7 +15,7 @@ export const getCommentById = async (req: Request, res: Response) => {
     }
   */
   const commentId = req.params.commentId;
-  const comment = await dbGetComment(commentId);
+  const comment = await dbGetCommentById(commentId);
   res.status(200).send(comment);
 };
 

@@ -1,6 +1,6 @@
 import Comment, { IComment } from '../models/Comment';
 
-export const dbGetComment = async (commentId: string) => {
+export const dbGetCommentById = async (commentId: string) => {
   return await Comment.findById(commentId);
 };
 
@@ -9,6 +9,7 @@ export const dbInsertComment = async (comment: IComment) => {
 };
 
 export const dbUpdateComment = async (commentId: string, comment: IComment) => {
+  comment.updatedAt = new Date();
   return await Comment.updateOne({ _id: commentId }, comment, { upsert: true });
 };
 
