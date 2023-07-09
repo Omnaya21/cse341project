@@ -15,7 +15,7 @@ import passport from 'passport';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import mongoose from 'mongoose';
-// import './passport';
+import './passport';
 
 const PORT = process.env.PORT;
 const app: Express = express();
@@ -32,16 +32,16 @@ if (process.env.NODE_ENV === 'dev') {
     .use(express.json())
     .use(express.urlencoded({ extended: true }))
     .use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc))
-    // .use(
-    //   session({
-    //     secret: process.env.SESSION_SECRET!,
-    //     resave: false,
-    //     saveUninitialized: false,
-    //     store: MongoStore.create({ client: mongoose.connection.getClient() }),
-    //   })
-    // )
-    // .use(passport.initialize())
-    // .use(passport.session())
+    .use(
+      session({
+        secret: process.env.SESSION_SECRET!,
+        resave: false,
+        saveUninitialized: false,
+        store: MongoStore.create({ client: mongoose.connection.getClient() }),
+      })
+    )
+    .use(passport.initialize())
+    .use(passport.session())
     .use(addUniversalResponseHeaders)
     .use('/', routes)
     .use(universalErrorHandler);
