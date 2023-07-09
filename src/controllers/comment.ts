@@ -1,22 +1,30 @@
 // prettier-ignore
 import {
-  dbGetCommentById,
-  dbInsertComment,
+  dbGetCommentsByAuthor,
+  dbInsertCommentAfterPost,
   dbUpdateComment,
   dbDeleteComment,
 } from '../dataAccess/comment';
 import { Request, Response } from 'express';
 
-export const getCommentById = async (req: Request, res: Response) => {
+export const getCommentsByAuthor = async (req: Request, res: Response) => {
   /*
     #swagger.responses[200] = {
-      description: 'Get a comment by its id.',
-      schema: { $ref: '#/definitions/Comment'}
+      description: 'Get a comment by its author.',
+      schema: { $ref: '#/definitions/CommentResponse'}
     }
   */
-  const commentId = req.params.commentId;
-  const comment = await dbGetCommentById(commentId);
-  res.status(200).send(comment);
+  const displayName = req.query.author as string;
+  if (displayName) {
+    try {
+      const comment = await dbGetCommentsByAuthor(displayName);
+      res.status(200).send(comment);
+    } catch (error: any) {
+      res.status(404).json({ error: error.message });
+    }
+  } else {
+    res.status(400).json({ error: 'Missing "author" parameter' });
+  }
 };
 
 export const insertComment = async (req: Request, res: Response) => {
@@ -27,8 +35,12 @@ export const insertComment = async (req: Request, res: Response) => {
       required: true,
       schema: { $ref: '#/definitions/Comment'}
     }
+    #swagger.responses[201] = {
+      description: 'Comment successfully created.',
+      schema: { $ref: '#/definitions/CommentResponse'}
+    }
   */
-  const comment = await dbInsertComment(req.body);
+  const comment = await dbInsertCommentAfterPost(req.body);
   res.status(201).send(comment);
 };
 
@@ -40,10 +52,14 @@ export const updateComment = async (req: Request, res: Response) => {
       required: true,
       schema: { $ref: '#/definitions/Comment'}
     }
+    #swagger.responses[200] = {
+      description: 'Comment successfully updated.',
+      schema: { $ref: '#/definitions/CommentResponse'}
+    }
   */
   const commentId = req.params.commentId;
   const comment = await dbUpdateComment(commentId, req.body);
-  res.status(202).send(comment);
+  res.status(200).send(comment);
 };
 
 export const deleteComment = async (req: Request, res: Response) => {
