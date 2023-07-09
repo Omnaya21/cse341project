@@ -25,7 +25,7 @@ export const getPostsByUsername = async (req: Request, res: Response) => {
   /*
     #swagger.responses[200] = {
       description: 'Get a post by its author.',
-      schema: { $ref: '#/definitions/PostResponse'}
+      schema: [{ $ref: '#/definitions/PostResponse'}]
     }
   */
   const displayName = req.query.author as string;

@@ -37,7 +37,7 @@ const doc = {
       updatedAt: '2023-06-25T01:45:43.197Z',
     },
     CommentResponse: {
-      post: { $ref: '#/definitions/PostResponse' },
+      post: '64aa1682d201360c4e2c7978',
       author: { $ref: '#/definitions/UserResponse' },
       comment: 'I love this!',
       createdAt: '2023-06-24T01:45:43.197Z',

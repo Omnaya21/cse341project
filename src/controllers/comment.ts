@@ -11,7 +11,7 @@ export const getCommentsByAuthor = async (req: Request, res: Response) => {
   /*
     #swagger.responses[200] = {
       description: 'Get a comment by its author.',
-      schema: { $ref: '#/definitions/CommentResponse'}
+      schema: [{ $ref: '#/definitions/CommentResponse'}]
     }
   */
   const displayName = req.query.author as string;
