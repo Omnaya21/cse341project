@@ -44,6 +44,6 @@ export const ensureAuth = (req: Request, res: Response, next: NextFunction) => {
   if (req.isAuthenticated()) {
     return next();
   } else {
-    res.status(401).send({ message: 'Unauthorized' });
+    res.status(401).send({ message: 'Unauthorized. Please login at /login.' });
   }
 };
