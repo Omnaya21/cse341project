@@ -6,8 +6,6 @@ if (process.env.NODE_ENV === 'prod') {
   redirectUrl = `${process.env.BASE_URL}`;
 }
 
-console.log({ redirectUrl });
-
 const login = (req: Request, res: Response) => {
   // #swagger.ignore = true
   res.redirect(`${redirectUrl}/api-docs`);

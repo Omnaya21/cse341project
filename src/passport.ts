@@ -8,8 +8,6 @@ if (process.env.NODE_ENV === 'prod') {
   redirectUrl = `${process.env.BASE_URL}${process.env.GITHUB_CALLBACK_URL}`;
 }
 
-console.log({ redirectUrl });
-
 export default passport.use(
   new Strategy(
     {
