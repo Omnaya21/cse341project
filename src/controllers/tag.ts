@@ -1,6 +1,6 @@
 // prettier-ignore
 import {
-  dbGetTag,
+  dbGetTagById,
   dbInsertTag,
   dbUpdateTag,
   dbDeleteTag,
@@ -13,7 +13,7 @@ export const getAllTags = async (req: Request, res: Response) => {
   /*
     #swagger.responses[200] = {
       description: 'Get all tags.',
-      schema: [{ $ref: '#/definitions/Tag'}]
+      schema: [{ $ref: '#/definitions/TagResponse'}]
     }
   */
   const tags = await dbGetAllTags();
@@ -24,11 +24,11 @@ export const getTagById = async (req: Request, res: Response) => {
   /*
     #swagger.responses[200] = {
       description: 'Get a tag by its id.',
-      schema: { $ref: '#/definitions/Tag'}
+      schema: { $ref: '#/definitions/TagResponse'}
     }
   */
   const tagId = req.params.tagId;
-  const tag = await dbGetTag(tagId);
+  const tag = await dbGetTagById(tagId);
   res.status(200).send(tag);
 };
 
@@ -36,7 +36,7 @@ export const getTagByName = async (req: Request, res: Response) => {
   /*
     #swagger.responses[200] = {
       description: 'Get a tag by its name.',
-      schema: { $ref: '#/definitions/Tag'}
+      schema: { $ref: '#/definitions/TagResponse'}
     }
   */
   const tagName = req.query.tagName as string;
@@ -57,6 +57,10 @@ export const insertTag = async (req: Request, res: Response) => {
       required: true,
       schema: { $ref: '#/definitions/Tag'}
     }
+    #swagger.responses[200] = {
+      description: 'Post successfully created.',
+      schema: { $ref: '#/definitions/TagResponse'}
+    }
   */
   const tag = await dbInsertTag(req.body);
   res.status(201).send(tag);
@@ -70,10 +74,14 @@ export const updateTag = async (req: Request, res: Response) => {
       required: true,
       schema: { $ref: '#/definitions/Tag'}
     }
+    #swagger.responses[200] = {
+      description: 'Post successfully updated.',
+      schema: { $ref: '#/definitions/TagResponse'}
+    }
   */
   const tagId = req.params.tagId;
   const tag = await dbUpdateTag(tagId, req.body);
-  res.status(202).send(tag);
+  res.status(200).send(tag);
 };
 
 export const deleteTag = async (req: Request, res: Response) => {

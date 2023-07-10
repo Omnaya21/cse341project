@@ -11,6 +11,98 @@
     }
   ],
   "paths": {
+    "/post/findByTag": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "tagName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get a post by a tag name.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostResponse"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/post/findByAuthor": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "author",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get a post by its author.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PostResponse"
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PostResponse"
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
     "/post/{postId}": {
       "get": {
         "description": "",
@@ -26,7 +118,22 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Get a post by its id.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostResponse"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         }
       },
@@ -43,14 +150,43 @@
           }
         ],
         "responses": {
-          "202": {
-            "description": "Accepted"
+          "200": {
+            "description": "Post successfully updated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostResponse"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostResponse"
+                }
+              }
+            }
           },
           "400": {
             "description": "Bad Request"
           },
           "401": {
             "description": "Unauthorized"
+          }
+        },
+        "requestBody": {
+          "description": "Update a post",
+          "in": "body",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Post"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/Post"
+              }
+            }
           }
         }
       },
@@ -68,52 +204,10 @@
         ],
         "responses": {
           "204": {
-            "description": "No Content"
-          }
-        }
-      }
-    },
-    "/post/findByTag": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "tagName",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
+            "description": "Post successfully deleted."
           },
-          "400": {
-            "description": "Bad Request"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      }
-    },
-    "/post/findByUser/{userId}": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
+          "401": {
+            "description": "Unauthorized"
           }
         }
       }
@@ -123,7 +217,19 @@
         "description": "",
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Post successfully created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostResponse"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostResponse"
+                }
+              }
+            }
           },
           "400": {
             "description": "Bad Request"
@@ -131,17 +237,33 @@
           "401": {
             "description": "Unauthorized"
           }
+        },
+        "requestBody": {
+          "description": "Create a new post",
+          "in": "body",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Post"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/Post"
+              }
+            }
+          }
         }
       }
     },
-    "/comment/{commentId}": {
+    "/comment/findByAuthor": {
       "get": {
         "description": "",
         "parameters": [
           {
-            "name": "commentId",
-            "in": "path",
-            "required": true,
+            "name": "author",
+            "in": "query",
             "schema": {
               "type": "string"
             }
@@ -149,10 +271,90 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Get a comment by its author.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CommentResponse"
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CommentResponse"
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
-      },
+      }
+    },
+    "/comment/": {
+      "post": {
+        "description": "",
+        "responses": {
+          "201": {
+            "description": "Comment successfully created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommentResponse"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommentResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "requestBody": {
+          "description": "Create a new comment",
+          "in": "body",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Comment"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/Comment"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/comment/{commentId}": {
       "put": {
         "description": "",
         "parameters": [
@@ -166,14 +368,43 @@
           }
         ],
         "responses": {
-          "202": {
-            "description": "Accepted"
+          "200": {
+            "description": "Comment successfully updated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommentResponse"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommentResponse"
+                }
+              }
+            }
           },
           "400": {
             "description": "Bad Request"
           },
           "401": {
             "description": "Unauthorized"
+          }
+        },
+        "requestBody": {
+          "description": "Update a comment",
+          "in": "body",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Comment"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/Comment"
+              }
+            }
           }
         }
       },
@@ -190,21 +421,42 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "204": {
+            "description": "Comment successfully deleted."
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         }
       }
     },
-    "/comment/": {
-      "post": {
+    "/tag/tagName": {
+      "get": {
         "description": "",
+        "parameters": [
+          {
+            "name": "tagName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "400": {
-            "description": "Bad Request"
+          "200": {
+            "description": "Get a tag by its name.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TagResponse"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/TagResponse"
+                }
+              }
+            }
           },
           "401": {
             "description": "Unauthorized"
@@ -227,7 +479,22 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Get a tag by its id.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TagResponse"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/TagResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         }
       },
@@ -244,14 +511,43 @@
           }
         ],
         "responses": {
-          "202": {
-            "description": "Accepted"
+          "200": {
+            "description": "Post successfully updated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TagResponse"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/TagResponse"
+                }
+              }
+            }
           },
           "400": {
             "description": "Bad Request"
           },
           "401": {
             "description": "Unauthorized"
+          }
+        },
+        "requestBody": {
+          "description": "Update a tag",
+          "in": "body",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Tag"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/Tag"
+              }
+            }
           }
         }
       },
@@ -268,16 +564,69 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "204": {
+            "description": "Tag successfully deleted."
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         }
       }
     },
     "/tag/": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "Get all tags.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TagResponse"
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TagResponse"
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
       "post": {
         "description": "",
         "responses": {
+          "200": {
+            "description": "Post successfully created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TagResponse"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/TagResponse"
+                }
+              }
+            }
+          },
           "201": {
             "description": "Created"
           },
@@ -287,6 +636,23 @@
           "401": {
             "description": "Unauthorized"
           }
+        },
+        "requestBody": {
+          "description": "Create a new tag",
+          "in": "body",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Tag"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/Tag"
+              }
+            }
+          }
         }
       }
     }
@@ -294,32 +660,26 @@
   "components": {
     "schemas": {
       "User": {
-        "type": "object",
-        "properties": {
-          "displayName": {
-            "type": "string",
-            "example": "Mike Johnson"
-          }
-        },
-        "required": [
-          "displayName"
-        ]
+        "type": "string",
+        "example": "Mike Johnson",
+        "xml": {
+          "name": "User"
+        }
       },
       "Tag": {
         "type": "object",
         "properties": {
-          "tag": {
+          "name": {
             "type": "string",
             "example": "Outdoors"
-          },
-          "createdAt": {
-            "type": "string",
-            "example": "2023-07-01T01:33:43.197Z"
           }
         },
         "required": [
-          "tag"
-        ]
+          "name"
+        ],
+        "xml": {
+          "name": "Tag"
+        }
       },
       "Comment": {
         "type": "object",
@@ -329,20 +689,24 @@
             "example": "This was great info. Thank you!"
           },
           "author": {
+            "xml": {
+              "name": "user"
+            },
             "$ref": "#/components/schemas/User"
           },
-          "createdAt": {
+          "postTitle": {
             "type": "string",
-            "example": "2023-06-24T01:33:43.197Z"
-          },
-          "updatedAt": {
-            "type": "string",
-            "example": ""
+            "example": "3 Day Backpacking List"
           }
         },
         "required": [
-          "comment"
-        ]
+          "comment",
+          "author",
+          "postTitle"
+        ],
+        "xml": {
+          "name": "Comment"
+        }
       },
       "Post": {
         "type": "object",
@@ -352,33 +716,34 @@
             "example": "3 Day Backpacking List"
           },
           "author": {
+            "xml": {
+              "name": "user"
+            },
             "$ref": "#/components/schemas/User"
           },
           "content": {
             "type": "string",
             "example": "In this post, I'm going to go over the best things to pack for a 3 day backpacking trip in southern Utah..."
           },
-          "createdAt": {
-            "type": "string",
-            "example": "2023-06-23T01:33:43.197Z"
-          },
-          "updatedAt": {
-            "type": "string",
-            "example": "2023-06-23T02:05:43.197Z"
-          },
           "image": {
             "type": "string",
-            "example": ""
+            "example": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQ4AAAG0C..."
           },
           "comments": {
             "type": "array",
             "items": {
+              "xml": {
+                "name": "comment"
+              },
               "$ref": "#/components/schemas/Comment"
             }
           },
           "tags": {
             "type": "array",
             "items": {
+              "xml": {
+                "name": "tag"
+              },
               "$ref": "#/components/schemas/Tag"
             }
           }
@@ -387,7 +752,139 @@
           "title",
           "author",
           "content"
-        ]
+        ],
+        "xml": {
+          "name": "Post"
+        }
+      },
+      "UserResponse": {
+        "type": "object",
+        "properties": {
+          "githubId": {
+            "type": "string",
+            "example": "123456"
+          },
+          "displayName": {
+            "type": "string",
+            "example": "Steve Allen"
+          },
+          "oAuthProvider": {
+            "type": "string",
+            "example": "GitHub"
+          },
+          "createdAt": {
+            "type": "string",
+            "example": "2023-06-24T01:45:43.197Z"
+          }
+        },
+        "required": [
+          "displayName"
+        ],
+        "xml": {
+          "name": "UserResponse"
+        }
+      },
+      "TagResponse": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Outdoors"
+          },
+          "createdAt": {
+            "type": "string",
+            "example": "2023-06-24T01:45:43.197Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "example": "2023-06-25T01:45:43.197Z"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "xml": {
+          "name": "TagResponse"
+        }
+      },
+      "CommentResponse": {
+        "type": "object",
+        "properties": {
+          "post": {
+            "type": "string",
+            "example": "64aa1682d201360c4e2c7978"
+          },
+          "author": {
+            "xml": {
+              "name": "userresponse"
+            },
+            "$ref": "#/components/schemas/UserResponse"
+          },
+          "comment": {
+            "type": "string",
+            "example": "I love this!"
+          },
+          "createdAt": {
+            "type": "string",
+            "example": "2023-06-24T01:45:43.197Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "example": "2023-06-25T01:45:43.197Z"
+          }
+        },
+        "xml": {
+          "name": "CommentResponse"
+        }
+      },
+      "PostResponse": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "3 Day Backpacking List"
+          },
+          "author": {
+            "xml": {
+              "name": "userresponse"
+            },
+            "$ref": "#/components/schemas/UserResponse"
+          },
+          "content": {
+            "type": "string",
+            "example": "In this post, I'm going to go over the best things to pack for a 3 day backpacking trip in southern Utah..."
+          },
+          "image": {
+            "type": "string",
+            "example": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQ4AAAG0C..."
+          },
+          "comments": {
+            "type": "array",
+            "items": {
+              "xml": {
+                "name": "commentresponse"
+              },
+              "$ref": "#/components/schemas/CommentResponse"
+            }
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "xml": {
+                "name": "tagresponse"
+              },
+              "$ref": "#/components/schemas/TagResponse"
+            }
+          }
+        },
+        "required": [
+          "title",
+          "author",
+          "content"
+        ],
+        "xml": {
+          "name": "PostResponse"
+        }
       }
     }
   }

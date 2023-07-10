@@ -8,17 +8,20 @@ import tag from './tag';
 
 const router = Router();
 
-// router.get('/', (req: Request, res: Response) => {
-//   // #swagger.ignore = true
-//   res.send('Please login in at /auth/github.');
-// });
+router.get('/', (req: Request, res: Response) => {
+  // #swagger.ignore = true
+  res.send('Please login in at /login');
+});
+router.get('/login', (req: Request, res: Response) => {
+  // #swagger.ignore = true
+  res.redirect('/auth/github');
+});
+router.get('/logout', logout);
 
-// router.get('/logout', logout);
-
-// router.use('/auth', auth);
+router.use('/auth', auth);
 
 // Ensure user is authenticated on the following routes.
-// router.use(ensureAuth);
+router.use(ensureAuth);
 
 router.use('/post', post);
 router.use('/comment', comment);

@@ -1,12 +1,11 @@
 import Joi from 'joi';
 
-export const UserSchema = Joi.object({
-  displayName: Joi.string().required(),
-});
+export const UserSchema = Joi.string().required();
 
 export const CommentSchema = Joi.object({
   author: UserSchema.required(),
   comment: Joi.string().required(),
+  postTitle: Joi.string().optional().allow(''),
   createdAt: Joi.date().optional().allow(''),
   updatedAt: Joi.date().optional().allow(''),
 });

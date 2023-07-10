@@ -1,54 +1,60 @@
 // prettier-ignore
 import {
-  dbGetPost,
+  dbGetPostById,
   dbInsertPost,
   dbUpdatePostById,
-  dbGetPostByUserId,
+  dbGetPostsByUsername,
   dbDeletePostById,
-  dbGetPostsByTagId,
+  dbGetPostsByTagName,
 } from '../dataAccess/post';
-import { dbGetTagByName } from '../dataAccess/tag';
 import { Request, Response } from 'express';
 
 export const getPostByPostId = async (req: Request, res: Response) => {
   /*
     #swagger.responses[200] = {
       description: 'Get a post by its id.',
-      schema: { $ref: '#/definitions/Post'}
+      schema: { $ref: '#/definitions/PostResponse'}
     }
   */
   const postId = req.params.postId;
-  const post = await dbGetPost(postId);
+  const post = await dbGetPostById(postId);
   res.status(200).send(post);
 };
 
-export const getPostsByUserId = async (req: Request, res: Response) => {
+export const getPostsByUsername = async (req: Request, res: Response) => {
   /*
     #swagger.responses[200] = {
       description: 'Get a post by its author.',
-      schema: { $ref: '#/definitions/Post'}
+      schema: [{ $ref: '#/definitions/PostResponse'}]
     }
   */
-  const userId = req.params.userId;
-  const post = await dbGetPostByUserId(userId);
-  res.status(200).send(post);
+  const displayName = req.query.author as string;
+  if (displayName) {
+    try {
+      const post = await dbGetPostsByUsername(displayName);
+      res.status(200).send(post);
+    } catch (error: any) {
+      res.status(404).json({ error: error.message });
+    }
+  } else {
+    res.status(400).json({ error: 'Missing "author" parameter' });
+  }
 };
 
 export const getPostsByTag = async (req: Request, res: Response) => {
   /*
     #swagger.responses[200] = {
       description: 'Get a post by a tag name.',
-      schema: { $ref: '#/definitions/Post'}
+      schema: { $ref: '#/definitions/PostResponse'}
     }
   */
   const tagName = req.query.tagName as string;
   if (tagName) {
-    const tag = await dbGetTagByName(tagName);
-    if (tag) {
-      const post = await dbGetPostsByTagId(tag._id.toString());
+    try {
+      const post = await dbGetPostsByTagName(tagName);
       res.status(200).send(post);
-    } else {
-      res.status(404).json({ error: 'Tag not found' });
+    } catch (error: any) {
+      res.status(404).json({ error: error.message });
     }
   } else {
     res.status(400).json({ error: 'Missing "tagName" parameter' });
@@ -63,6 +69,10 @@ export const createPost = async (req: Request, res: Response) => {
       required: true,
       schema: { $ref: '#/definitions/Post'}
     }
+    #swagger.responses[201] = {
+      description: 'Post successfully created.',
+      schema: { $ref: '#/definitions/PostResponse'}
+    }
   */
   const post = await dbInsertPost(req.body);
   res.status(201).send(post);
@@ -76,10 +86,14 @@ export const updatePost = async (req: Request, res: Response) => {
       required: true,
       schema: { $ref: '#/definitions/Post'}
     }
+    #swagger.responses[200] = {
+      description: 'Post successfully updated.',
+      schema: { $ref: '#/definitions/PostResponse'}
+    }
   */
   const postId = req.params.postId;
   const post = await dbUpdatePostById(postId, req.body);
-  res.status(202).send(post);
+  res.status(200).send(post);
 };
 
 export const deletePost = async (req: Request, res: Response) => {

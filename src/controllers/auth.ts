@@ -17,7 +17,6 @@ const logout = (req: Request, res: Response, next: NextFunction) => {
     if (err) {
       return next(err);
     }
-
     res.redirect('/');
   });
 };
