@@ -5,13 +5,13 @@ import auth from './auth';
 import post from './post';
 import comment from './comment';
 import tag from './tag';
+import homeButton from '../views/button'
 
 const router = Router();
 
-router.get('/', (req: Request, res: Response) => {
+router.get('/', homeButton)
   // #swagger.ignore = true
-  res.send('Please login in at /login');
-});
+
 router.get('/login', (req: Request, res: Response) => {
   // #swagger.ignore = true
   res.redirect('/auth/github');
