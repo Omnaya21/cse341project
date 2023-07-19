@@ -729,15 +729,6 @@
             "type": "string",
             "example": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQ4AAAG0C..."
           },
-          "comments": {
-            "type": "array",
-            "items": {
-              "xml": {
-                "name": "comment"
-              },
-              "$ref": "#/components/schemas/Comment"
-            }
-          },
           "tags": {
             "type": "array",
             "items": {

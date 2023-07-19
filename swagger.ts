@@ -22,7 +22,6 @@ const doc = {
       $author: { $ref: '#/definitions/User' },
       $content: "In this post, I'm going to go over the best things to pack for a 3 day backpacking trip in southern Utah...",
       image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQ4AAAG0C...',
-      comments: [{ $ref: '#/definitions/Comment' }],
       tags: [{ $ref: '#/definitions/Tag' }],
     },
     UserResponse: {
@@ -55,12 +54,12 @@ const doc = {
 };
 
 const endpointsFiles = ['./src/app.ts'];
-let outputFile = './src/swagger-dev-ts.json';
+let outputFile = './src/swagger-dev.json';
 
 if (process.env.NODE_ENV === 'prod') {
   doc.host = process.env.HOST || '';
   doc.schemes = ['https'];
-  outputFile = './src/swagger-ts.json';
+  outputFile = './src/swagger.json';
 }
 
 swaggerAutogen(outputFile, endpointsFiles, doc);
