@@ -42,7 +42,6 @@ export const getTagByName = async (req: Request, res: Response) => {
   const tagName = req.query.tagName as string;
   if (tagName) {
     const tag = await dbGetTagByName(tagName);
-    console.log({ tag });
     res.status(200).send(tag);
   } else {
     res.status(401).send({ error: 'Missing "tagName" parameter' });

@@ -1,6 +1,6 @@
 import Post, { IPost } from '../models/Post';
 import User from '../models/User';
-import { dbGetTagByName, dbInsertTag } from './tag';
+import { dbGetTagByName, dbInsertTag, dbGetTagById } from './tag';
 import { dbGetCommentById, dbInsertComment, dbUpdateComment, dbGetCommentsByPostId, dbDeleteComment } from './comment';
 import { IComment } from '../models/Comment';
 
@@ -40,7 +40,51 @@ export const dbGetPosts = async () => {
 
 export const dbUpdatePostById = async (postId: string, post: IPost) => {
   post.updatedAt = new Date();
-  return await Post.updateOne({ _id: postId }, post, { upsert: true });
+
+  const { author, tags } = post;
+  if (!author) {
+    // If user doesn't exist, throw error.
+    console.log('No Author');
+    throw new Error('Blog post must have an Author.');
+  }
+  // If user exists, get user Id and add it to the Post object.
+  if (typeof post.author === 'string') {
+    const user = await User.findOne({ displayName: author });
+    if (!user) {
+      // If user doesn't exist, throw error.
+      console.log('User not found.');
+      throw new Error('User not found.');
+    }
+    post.author = user?._id;
+  }
+
+  let postTags = [];
+  // Check if there are any tags
+  if (tags && tags.length > 0) {
+    // If there are tags, loop through tags
+    for (let tag of tags) {
+      // Check if tag already exists in the db
+      let existing;
+      if (tag.name) {
+       existing = await dbGetTagByName(tag.name);
+      } else {
+        existing = await dbGetTagById(tag.toString());
+      }
+      // If the tag already exists, use the tagId with the Post object
+      if (existing) {
+        postTags.push(existing._id);
+      } else {
+        // If the tag does not exist, create it, and use the tagId with the Post object
+        const newTag = await dbInsertTag(tag);
+        postTags.push(newTag._id);
+      }
+    }
+  }
+  post.tags = postTags;
+
+  await Post.updateOne({ _id: postId }, post, { upsert: true });
+
+  return await dbGetPostById(postId);
 };
 
 export const dbDeletePostById = async (postId: string) => {
