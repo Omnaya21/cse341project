@@ -7,7 +7,7 @@
     "build": "rimraf ./dist && tsc",
     "start": "npm run build && node -r dotenv/config dist/app.js",
     "dev": "npx nodemon",
-    "swagger": "node -r dotenv/config ./swagger.js"
+    "swagger": "node -r dotenv/config ./swagger.ts"
   },
   "keywords": [],
   "author": "Bryant, Kendra - Earley, Jesse - Navarro, Omar",
