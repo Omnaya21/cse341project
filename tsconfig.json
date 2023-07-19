@@ -27,8 +27,7 @@
     "skipLibCheck": true
   },
   "exclude": [
-    "swagger.js",
-    "connect.js",
+    "swagger.ts",
     "dist"
   ]
 }
